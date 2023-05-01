@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-height: 100vh;
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 700;
+    background: linear-gradient(to bottom right, #c4e3ff, #ffc0cb);
+}
+
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
