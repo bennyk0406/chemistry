@@ -10,7 +10,7 @@ app.use(express.json())
 app.get("*", (_, res) => {
     res.sendFile(resolve(__dirname, "../../client/build/index.html"));
 })
-const server = app.listen(80, () => {
+const server = app.listen(223, () => {
     console.log("The server has started!")
 })
 
