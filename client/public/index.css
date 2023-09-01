@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'Saira', sans-serif;
+    font-weight: 500;
+    background-color: #f7f8f9;
+}
+
+#root {
+    max-width: 1280px;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    place-items: center;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+input {
+    font-family: 'Saira', sans-serif;
+    font-weight: 500;
+}
