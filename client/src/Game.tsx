@@ -9,6 +9,7 @@ import { addWsEventListner, requestMsg } from "./post";
 import type { Table } from "../../server/src/table"
 import Round from "./component/Round";
 import Card from "./component/Card";
+import { useNavigate } from "react-router-dom";
 
 interface TimerProps {
     round: number
@@ -223,6 +224,59 @@ const Play = () => {
     )
 }
 
+interface FinishProps {
+    score: [number, number]
+}
+
+const Finish: React.FC<FinishProps> = (props) => {
+    const { score } = props
+    const team = localStorage.getItem("team") as string
+    const teamNum = parseInt(team)
+    const opponentNum = 1 - teamNum
+    const navigate = useNavigate()
+
+    return (
+        <div css={css`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 50px;
+        `}>
+            <div css={css`
+                font-size: 30px;
+            `}>
+                {score[teamNum] > score[opponentNum]
+                ? "You win!"
+                : score[teamNum] === score[opponentNum]
+                ? "Draw!"
+                : "You are defeated."}
+            </div>
+            <div css={css`
+                display: flex;
+                flex-direction: row;
+                gap: 70px;
+                align-items: center;
+                justify-content: center;
+            `}>
+                <Score player={team === "0" ? "You" : "Opponent"} score={score[0]} highlight={false} />
+                <div css={css`
+                    font-size: 45px;
+                `}>
+                    :
+                </div>
+                <Score player={team === "0" ? "Opponent" : "You"} score={score[1]} highlight={false} />
+            </div>
+            <OperationButton name="Play Again!" action={() => navigate("../")} style={css`
+                font-size: 40px;
+                height: 60px;
+                padding: 0 20px;
+                margin-top: 30px;
+            `}/>
+        </div>
+    )
+}
+
 const Game = () => {
     const [component, setComponent] = useState(<div />)
 
@@ -232,6 +286,9 @@ const Game = () => {
             setTimeout(() => {
                 setComponent(<Play />)
             }, 5000)
+        })
+        addWsEventListner("finish", (serverRes) => {
+            setComponent(<Finish score={serverRes.content.score} />)
         })
     }, [])
 

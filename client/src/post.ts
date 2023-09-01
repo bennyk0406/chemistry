@@ -14,7 +14,6 @@ const addWsEventListner = <T extends AllServerRes["type"]>(ev: T, cb: wsEventLis
 
 ws.addEventListener("message", (ev) => {
     const serverRes = JSON.parse(ev.data) as AllServerRes
-    console.log(serverRes)
     wsEventListeners[serverRes.type].forEach((cb) => cb(serverRes));
 })
 

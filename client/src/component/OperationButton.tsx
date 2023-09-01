@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { SerializedStyles, css } from "@emotion/react";
 
 interface OperationButtonProps extends React.PropsWithChildren {
     name: string;
     action: () => void;
+    style?: SerializedStyles;
 }
 
 const OperationButton: React.FC<OperationButtonProps> = (props) =>
     <div css={css`
+        ${props.style}
         background-color: #ffffff;
         border: 1px solid #dededc;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

@@ -49,6 +49,11 @@ type AllServerRes = {
     content: {
         room: string
     }
+} | {
+    type: "finish"
+    content: {
+        score: [number, number]
+    }
 }
 
 type ServerRes<T> = Extract<AllServerRes, { type: T }>

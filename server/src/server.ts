@@ -26,9 +26,10 @@ class RoomData {
     public sockets: WebSocket.WebSocket[]
     public sessionKeys: string[]
     public timeout?: NodeJS.Timeout
+    public roomNumber: string
     public roundLimit = 5
 
-    constructor(socket: WebSocket.WebSocket, sessionKey: string) {
+    constructor(socket: WebSocket.WebSocket, roomNumber: string, sessionKey: string) {
         this.round = 0
         this.table = setTable()
         this.turnOwner = 0
@@ -37,6 +38,7 @@ class RoomData {
         this.chemList = []
         this.sockets = [socket]
         this.sessionKeys = [sessionKey]
+        this.roomNumber = roomNumber
     }
 
     static generateSessionKey(len = 10) {
@@ -84,10 +86,20 @@ class RoomData {
         })
     }
 
+    finish() {
+        this.allSend({
+            type: "finish",
+            content: {
+                score: this.score
+            }
+        })
+        gameData.delete(this.roomNumber)
+    }
+
     nextRound() {
         this.round++
         if (this.round > this.roundLimit) {
-            //TODO this.finish()
+            this.finish()
             return
         }
         clearTimeout(this.timeout)
@@ -129,7 +141,7 @@ wsServer.on("connection", (socket) => {
         if (query === "create") {
             const room = format(getMex())
             const sessionKey = RoomData.generateSessionKey()
-            gameData.set(room, new RoomData(socket, sessionKey))
+            gameData.set(room, new RoomData(socket, room, sessionKey))
             send({
                 type: "create",
                 content: {
