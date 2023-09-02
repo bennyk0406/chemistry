@@ -87,6 +87,7 @@ class RoomData {
     }
 
     finish() {
+        clearTimeout(this.timeout)
         this.allSend({
             type: "finish",
             content: {
