@@ -1,7 +1,7 @@
 import { resolve } from "path"
 import { Table, countChem, isChem, setTable } from "./table"
 import express from "express"
-import { AllServerRes, ClientRes, ServerRes } from "../../interface"
+import { AllServerRes, ClientRes } from "../../interface"
 import WebSocket from "ws"
 
 const app = express()
@@ -14,7 +14,7 @@ const server = app.listen(80, () => {
     console.log("The server has started!")
 })
 
-const wsServer = new WebSocket.Server({ server })
+const wsServer = new WebSocket.Server({ port: 3000 })
 
 class RoomData {
     public round: number

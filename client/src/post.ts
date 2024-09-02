@@ -1,6 +1,7 @@
 import { AllServerRes, ClientRes, ServerRes } from "../../interface/index"
+import { WEBSOCKET_HOST } from "./server.config"
 
-const ws = new WebSocket(`ws://${window.location.host}:80`)
+const ws = new WebSocket(WEBSOCKET_HOST)
 const requestMsg = (clientRes: ClientRes) => {
     ws.send(JSON.stringify(clientRes))
 }
